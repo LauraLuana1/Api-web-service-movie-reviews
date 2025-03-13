@@ -1,0 +1,6 @@
+@Api_web_service_movie_reviews_HostAddress = http://localhost:5218
+
+GET {{Api_web_service_movie_reviews_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

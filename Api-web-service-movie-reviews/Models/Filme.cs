@@ -17,8 +17,9 @@ namespace Api_web_service_movie_reviews.Models
         [Required]
         public int AnoLancamento { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Nota { get; set; }
-        public ICollection<Avaliacao> Avaliações { get; set; }
+        public ICollection<Avaliacao> Avaliacoes { get; set; }
 
     }
 }

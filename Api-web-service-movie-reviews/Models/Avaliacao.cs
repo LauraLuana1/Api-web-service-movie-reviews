@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api_web_service_movie_reviews.Models
 {
-    [Table("Avaliações")]
+    [Table("Avaliacoes")]
     public class Avaliacao
     {
         [Key]

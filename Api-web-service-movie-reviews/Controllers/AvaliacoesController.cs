@@ -39,6 +39,8 @@ namespace Api_web_service_movie_reviews.Controllers
             var model = await _context.Avaliacoes
                   .FirstOrDefaultAsync(C => C.Id == Id);
             if (model == null) return NotFound();
+
+            GerarLinks(model);
             return Ok(model);
         }
 
@@ -68,6 +70,13 @@ namespace Api_web_service_movie_reviews.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private void GerarLinks(Avaliacao model)
+        {
+            model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "self", metodo: "GET"));
+            model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "update", metodo: "PUT"));
+            model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "delete", metodo: "Delete"));
         }
     }
 }

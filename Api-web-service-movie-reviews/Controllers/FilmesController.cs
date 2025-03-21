@@ -24,7 +24,7 @@ namespace Api_web_service_movie_reviews.Controllers
             return Ok(model);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public async Task<ActionResult> Create(Filme model)
         {
             if (model.AnoLancamento <= 0)
@@ -42,6 +42,7 @@ namespace Api_web_service_movie_reviews.Controllers
         public async Task<ActionResult> GetById(int Id)
         {
             var model = await _context.Filmes
+                .Include(t => t.Usuarios).ThenInclude(t=>t.Usuario)
                   .Include(t => t.Avaliacoes)
                   .FirstOrDefaultAsync(C => C.Id == Id);
 
@@ -70,7 +71,7 @@ namespace Api_web_service_movie_reviews.Controllers
         [HttpDelete("{Id}")]
         public async Task<ActionResult> Delete(int Id)
         {
-         var model = await _context.Filmes.FindAsync(Id);
+            var model = await _context.Filmes.FindAsync(Id);
             if (model == null) return NotFound();
 
             _context.Filmes.Remove(model);
@@ -81,9 +82,35 @@ namespace Api_web_service_movie_reviews.Controllers
 
         private void GerarLinks(Filme model)
         {
-            model.Links.Add(new LinkDTO(model.Id, Url.ActionLink() , rel: "self", metodo: "GET"));
+            model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "self", metodo: "GET"));
             model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "update", metodo: "PUT"));
             model.Links.Add(new LinkDTO(model.Id, Url.ActionLink(), rel: "delete", metodo: "Delete"));
+        }
+
+        [HttpPost("{id}/usuarios")]
+        public async Task<ActionResult> AddUsuario(int id, FilmeUsuarios model)
+        {
+            if (id != model.FilmeId) return BadRequest();
+
+            _context.FilmesUsuarios.Add(model);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetById", new { id = model.FilmeId }, model);
+        }
+
+        [HttpDelete("{id}/usuarios/{UsuarioId}")]
+        public async Task<ActionResult> DeleteUsuario(int id, int UsuarioId)
+        {
+           var model = await _context.FilmesUsuarios
+                .Where(c => c.FilmeId == id && c.UsuarioId == UsuarioId)
+                .FirstOrDefaultAsync();
+
+            if (model == null) return NotFound();
+
+            _context.FilmesUsuarios .Remove(model);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Api_web_service_movie_reviews.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Nota { get; set; }
         public ICollection<Avaliacao> Avaliacoes { get; set; }
+        public ICollection<FilmeUsuarios> Usuarios { get; set; }
 
     }
 }

@@ -26,6 +26,7 @@ namespace Api_web_service_movie_reviews.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public async Task<ActionResult> Create(Filme model)
         {
@@ -54,6 +55,7 @@ namespace Api_web_service_movie_reviews.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{Id}")]
         public async Task<ActionResult> Update(int Id, Filme model)
         {
@@ -70,6 +72,7 @@ namespace Api_web_service_movie_reviews.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpDelete("{Id}")]
         public async Task<ActionResult> Delete(int Id)
         {

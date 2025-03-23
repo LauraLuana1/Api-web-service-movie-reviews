@@ -1,4 +1,5 @@
 ﻿using Api_web_service_movie_reviews.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_web_service_movie_reviews.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FilmesController : ControllerBase
